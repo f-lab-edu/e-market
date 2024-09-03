@@ -34,6 +34,12 @@ public class UserRepository {
         return users.containsKey(email);
     }
 
+    public boolean existsByEmailAndPassword(String email, String password) {
+        Long userId = 1L;
+        User user = users.get(userId);
+        return user.getEmail().equals(email) && user.getPassword().equals(password);
+    }
+
 //    void insertUser(User user);
 //
 //    User findByEmail(String email);
