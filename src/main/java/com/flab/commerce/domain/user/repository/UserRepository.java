@@ -23,10 +23,12 @@ public class UserRepository {
     }
 
     public void insertUser(User user) {
-        users.put(++userId, user);
+        Long id = ++userId;
+        user.setUserId(id);
+        users.put(id, user);
     }
 
-    public User getUser(long userId) {
+    public User getUser(Long userId) {
         return users.get(userId);
     }
 
