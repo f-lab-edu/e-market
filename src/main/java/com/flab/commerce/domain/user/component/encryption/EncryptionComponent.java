@@ -1,4 +1,4 @@
-package com.flab.commerce.domain.user.service.encryption;
+package com.flab.commerce.domain.user.component.encryption;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +12,7 @@ import javax.crypto.spec.PBEKeySpec;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EncryptionService {
+public class EncryptionComponent {
 
     public String encryptPassword(String email, String password) {
         try {

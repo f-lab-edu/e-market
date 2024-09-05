@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import lombok.Setter;
 
 /**
  * VO class
@@ -22,7 +23,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
-
+    @Setter
     private Long userId;
 
     private String username;

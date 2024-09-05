@@ -6,7 +6,7 @@ import com.flab.commerce.domain.user.domain.User;
 import com.flab.commerce.domain.user.dto.UserRequest.UserLoginRequest;
 import com.flab.commerce.domain.user.dto.UserRequest.UserSignupRequest;
 import com.flab.commerce.domain.user.repository.UserRepository;
-import com.flab.commerce.domain.user.service.encryption.EncryptionService;
+import com.flab.commerce.domain.user.component.encryption.EncryptionComponent;
 import com.flab.commerce.global.common.CommonResponse;
 import com.flab.commerce.global.error.CommonException;
 import com.flab.commerce.global.error.ErrorCode;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository = UserRepository.getInstance();
-    private final EncryptionService encoder;
+    private final EncryptionComponent encoder;
     /**
      * 서블릿이 제공하는 기술 서블릿을 통해 session 생성시 JSESSIONID 이라는 이름의 쿠키를 생성 추정 불가한 랜덤값을 넣어준다.
      */
@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public CommonResponse<User> getUser(Long userId) {
-        User user = userRepository.getUser(1);
+        User user = userRepository.getUser(userId);
         if (user == null) {
             throw new CommonException(ErrorCode.USER_NOT_FOUND);
         }
@@ -51,7 +51,7 @@ public class UserService {
         if (!userRepository.existsByEmailAndPassword(request.getEmail(), encodedPassword)) {
             throw new CommonException(ErrorCode.USER_NOT_FOUND);
         }
-        User user = userRepository.getUser(1);
+        User user = userRepository.getUser(1L);
         // 로그인 성공 로직
         httpSession.setAttribute(LOGIN_USER, user.getUserId());
         log.info("Logged in user: {}", httpSession.getAttribute(LOGIN_USER));
