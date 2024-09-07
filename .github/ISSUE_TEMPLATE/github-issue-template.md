@@ -9,6 +9,13 @@ assignees: Da-you
 
 ## 목적
 
+>
+
 ## 작업 상세 내용
+- [ ] todo 
+- [ ] todo 
+- [ ] todo 
 
 ## 참고 사항
+
+>
