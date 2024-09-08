@@ -2,6 +2,7 @@ package com.flab.commerce.domain.product.domain;
 
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,8 @@ public class Product {
 
     private int price;
 
+    private Long subCategoryId;
+
     private LocalDateTime createdAt;
 
     public Product(Long productId, String productCode, String productName, int price) {
@@ -24,6 +27,17 @@ public class Product {
         this.productCode = productCode;
         this.productName = productName;
         this.price = price;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public Product(Long productId, String productCode, String productName, int price,
+        Long subCategoryId) {
+        this.productId = productId;
+        this.productCode = productCode;
+        this.productName = productName;
+        this.price = price;
+        this.subCategoryId = subCategoryId;
         this.createdAt = LocalDateTime.now();
     }
 
