@@ -17,9 +17,17 @@ public class CartRepository {
         carts.put(1L, cart);
     }
 
-    public Cart getCartByUserId(Long userId){
+    public Cart getCartByUserId(Long userId) {
         return carts.get(1L);
     }
 
-    public void deleteCartByUserId(Long userId){}
+    public void save(Cart cart) {
+        carts.put(cart.getCartId(), cart);
+    }
+
+    public void deleteOptionInCart(Long optionId) {
+        if (carts.get(1L).getOptionId().equals(optionId)) {
+            carts.remove(1L);
+        }
+    }
 }
