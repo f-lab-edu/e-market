@@ -2,9 +2,9 @@ package com.flab.commerce.domain.product.service;
 
 import com.flab.commerce.domain.cart.domain.Cart;
 import com.flab.commerce.domain.cart.repository.CartRepository;
+import com.flab.commerce.domain.category.service.CategoryService;
 import com.flab.commerce.domain.product.domain.Product;
 import com.flab.commerce.domain.product.domain.ProductOption;
-import com.flab.commerce.domain.product.dto.ProductResponse;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductDetailResponse;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductListResponse;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductOptionResponse;
@@ -24,6 +24,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductOptionRepository optionRepository;
     private final CartRepository cartRepository;
+    private final CategoryService categoryService;
 
 
     public List<ProductListResponse> getList() {
@@ -39,6 +40,8 @@ public class ProductService {
 
     public ProductDetailResponse getDetail(Long productId) {
         Product product = productRepository.findById(productId);
+        String subCategory = categoryService.getSubCategoryName(product.getSubCategoryId());
+        String mainCategory = categoryService.getCategoryName(product.getSubCategoryId());
         List<ProductOption> options = optionRepository.findByProductId(productId);
         List<ProductOptionResponse> res = new ArrayList<>();
         for (ProductOption op : options) {
@@ -49,7 +52,7 @@ public class ProductService {
 
         return new ProductDetailResponse(product.getProductId(), product.getProductCode(),
             product.getProductName(),
-            product.getPrice(), res);
+            product.getPrice(), res, mainCategory, subCategory);
     }
 
     public List<ProductListResponse> searchProduct(String keyword) {

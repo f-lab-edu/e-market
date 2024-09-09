@@ -29,6 +29,9 @@ public class ProductResponse {
         private int price;
         // 옵션 항목(색상, 사이즈, 재고, 가격)
         private List<ProductOptionResponse> options;
+        // 카테고리
+        private String mainCategory;
+        private String subCategory;
     }
 
     @Getter
