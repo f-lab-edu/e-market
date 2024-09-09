@@ -13,13 +13,12 @@ public class CartRepository {
 
     @PostConstruct
     public void init() {
-        Cart cart = Cart.builder().cartId(1L).userId(1L).optionId(1L).build();
+        Cart cart = Cart.builder().cartId(1L).userId(1L).build();
         carts.put(1L, cart);
     }
 
-    public Cart getCartByUserId(Long userId){
+    public Cart getCartByUserId(Long userId) {
         return carts.get(1L);
     }
 
-    public void deleteCartByUserId(Long userId){}
 }

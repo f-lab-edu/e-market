@@ -17,17 +17,17 @@ public class ProductRepository {
 
     @PostConstruct
     public void init() {
-        Product product = new Product(1L, "a", "반팔티", 10000);
+        Product product = new Product(1L, "a", "반팔티", 10000, 1L);
         products.put(1L, product);
-        Product product2 = new Product(2L, "b", "긴팥티", 20000);
+        Product product2 = new Product(2L, "b", "긴팥티", 20000, 1L);
         products.put(2L, product2);
-        Product product3 = new Product(3L, "c", "나시티", 30000);
+        Product product3 = new Product(3L, "c", "나시티", 30000, 1L);
         products.put(3L, product3);
-        Product product4 = new Product(4L, "d", "롱코트", 40000);
+        Product product4 = new Product(4L, "d", "롱코트", 40000, 1L);
         products.put(4L, product4);
-        Product product5 = new Product(5L, "e", "MA-1", 50000);
+        Product product5 = new Product(5L, "e", "MA-1", 50000, 1L);
         products.put(5L, product5);
-        Product product6 = new Product(6L, "f", "트러커", 60000);
+        Product product6 = new Product(6L, "f", "트러커", 60000, 1L);
         products.put(6L, product6);
     }
 
@@ -50,6 +50,10 @@ public class ProductRepository {
             }
         }
         return res;
+    }
+
+    public Product findByOptionId(Long optionId) {
+        return products.get(optionId);
     }
 
 
