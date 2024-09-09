@@ -43,9 +43,4 @@ public class ProductController {
     public void contain(@CheckUserId Long userId, @PathVariable(name = "id") Long optionId) {
         productService.contain(userId, optionId);
     }
-
-    @DeleteMapping("{id}")
-    public void deleteOption(@CheckUserId Long userId, @PathVariable(name = "id") Long productId) {
-        productService.deleteOption(productId, userId);
-    }
 }

@@ -1,27 +1,25 @@
 package com.flab.commerce.domain.cart.domain;
 
-
-import jakarta.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Cart, Option 매핑 역할의 중간 테이블
+ */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Cart {
+public class CartDetail {
 
+    private Long id;
     private Long cartId;
-    private Long userId;
-
-
+    private Long optionId;
 
     @Builder
-    public Cart (Long cartId, Long userId) {
+    public CartDetail(Long id, Long cartId, Long optionId) {
+        this.id = id;
         this.cartId = cartId;
-        this.userId = userId;
-    }
-    public static Cart createCart(Long userId){
-        return Cart.builder().userId(userId).build();
+        this.optionId = optionId;
     }
 }

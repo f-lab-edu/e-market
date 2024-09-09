@@ -52,5 +52,9 @@ public class ProductRepository {
         return res;
     }
 
+    public Product findByOptionId(Long optionId) {
+        return products.get(optionId);
+    }
+
 
 }
