@@ -10,6 +10,7 @@ public enum ErrorCode {
 
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, "40301", "email is duplicated"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "40401", "user not found"),
+    CART_PRODUCT_IS_EMPTY(HttpStatus.BAD_REQUEST, "40001", "cart product is empty"),
     ;
 
     private final HttpStatus status;
