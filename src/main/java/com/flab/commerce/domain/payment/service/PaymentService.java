@@ -1,9 +1,7 @@
 package com.flab.commerce.domain.payment.service;
 
-import com.flab.commerce.domain.cart.domain.Cart;
 import com.flab.commerce.domain.cart.domain.CartDetail;
 import com.flab.commerce.domain.cart.repository.CartDetailRepository;
-import com.flab.commerce.domain.cart.repository.CartRepository;
 import com.flab.commerce.domain.payment.domain.Payment;
 import com.flab.commerce.domain.payment.dto.PaymentRequest;
 import com.flab.commerce.domain.payment.repository.PaymentRepository;
@@ -24,7 +22,7 @@ public class PaymentService {
     private final CartDetailRepository cartDetailRepository;
     private final ProductRepository productRepository;
 
-    public void pay(Long userId, Long cartId, PaymentRequest request) {
+    public void checkout(Long userId, Long cartId, PaymentRequest request) {
         // cart 내부에 있는 상품 조회 후
         List<CartDetail> cartOption = cartDetailRepository.findAllByCartId(cartId);
         if (cartOption.isEmpty()) {
@@ -44,6 +42,4 @@ public class PaymentService {
         // 결제 정보 저장(결제 수단, 결제 금액, 결제 아이디)
         paymentRepository.save(payment);
     }
-
-    // 결제 내역 조회
 }

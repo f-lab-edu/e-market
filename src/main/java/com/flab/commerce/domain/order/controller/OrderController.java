@@ -27,9 +27,9 @@ public class OrderController {
     }
 
     @PostMapping("pay/{id}")
-    public void pay(Long userId, @PathVariable(name = "id") Long cartId,
+    public void checkout(Long userId, @PathVariable(name = "id") Long cartId,
         @RequestBody PaymentRequest request) {
-        paymentService.pay(userId, cartId, request);
+        paymentService.checkout(userId, cartId, request);
     }
 
 
