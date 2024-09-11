@@ -26,10 +26,10 @@ public class OrderController {
         return CommonResponse.success(cartService.getCart(userId));
     }
 
-    @PostMapping("pay/{id}")
-    public void pay(Long userId, @PathVariable(name = "id") Long cartId,
+    @PostMapping("checkout/{id}")
+    public void checkout(Long userId, @PathVariable(name = "id") Long cartId,
         @RequestBody PaymentRequest request) {
-        paymentService.pay(userId, cartId, request);
+        paymentService.checkout(userId, cartId, request);
     }
 
 
