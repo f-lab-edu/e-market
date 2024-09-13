@@ -3,6 +3,7 @@ package com.flab.commerce.domain.user.controller;
 import com.flab.commerce.domain.user.domain.User;
 import com.flab.commerce.domain.user.dto.UserRequest.UserLoginRequest;
 import com.flab.commerce.domain.user.dto.UserRequest.UserSignupRequest;
+import com.flab.commerce.domain.user.service.UserLoginService;
 import com.flab.commerce.domain.user.service.UserService;
 import com.flab.commerce.global.common.CommonResponse;
 import com.flab.commerce.global.common.annotation.CheckUserId;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserApiController {
 
     private final UserService userService;
+    private final UserLoginService loginService;
 
     @PostMapping("/signup")
     public void signup(@RequestBody UserSignupRequest request) {
@@ -29,17 +31,12 @@ public class UserApiController {
 
     @PostMapping("/login")
     public void login(@RequestBody UserLoginRequest request) {
-        userService.login(request);
+        loginService.login(request);
     }
 
     @DeleteMapping("/logout")
     public void logout(@CheckUserId Long userId) {
-        userService.logout(userId);
-    }
-
-    @GetMapping
-    public CommonResponse<User> getUser(@RequestParam(name = "userId") Long userId) {
-        return userService.getUser(userId);
+        loginService.logout(userId);
     }
 
 }

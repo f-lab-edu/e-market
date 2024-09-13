@@ -13,6 +13,7 @@ public class Order {
     private Long orderId;
     private Long userId;
     private String orderNumber; // createdAt + orderId
+    private Long paymentId;
     private LocalDateTime createdAt;
 
     @Builder

@@ -2,17 +2,23 @@ package com.flab.commerce.global.common.annotation;
 
 import static com.flab.commerce.global.constant.SessionConst.*;
 
+import com.flab.commerce.domain.user.service.UserLoginService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+@Component
+@RequiredArgsConstructor
 public class CheckUserIdArgumentResolver implements
     HandlerMethodArgumentResolver {
 
+    private final UserLoginService loginService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -26,14 +32,6 @@ public class CheckUserIdArgumentResolver implements
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest(
-            HttpServletRequest.class);
-
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return null;
-        }
-
-        return session.getAttribute(LOGIN_USER);
+        return loginService.getCurrentUserId();
     }
 }
