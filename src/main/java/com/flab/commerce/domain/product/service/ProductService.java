@@ -1,9 +1,9 @@
 package com.flab.commerce.domain.product.service;
 
+import com.flab.commerce.domain.cart.dao.CartRepository;
 import com.flab.commerce.domain.cart.domain.Cart;
 import com.flab.commerce.domain.cart.domain.CartDetail;
 import com.flab.commerce.domain.cart.repository.CartDetailRepository;
-import com.flab.commerce.domain.cart.repository.CartRepository;
 import com.flab.commerce.domain.category.service.CategoryService;
 import com.flab.commerce.domain.product.domain.Product;
 import com.flab.commerce.domain.product.domain.ProductOption;
@@ -69,10 +69,8 @@ public class ProductService {
     }
 
     public void contain(Long userId, Long optionId) {
-        Cart cart = cartRepository.getCartByUserId(userId);
-        if (cartRepository.getCartByUserId(userId) == null) {
-            cart = Cart.createCart(userId);
-        }
+        Cart cart = cartRepository.findByUserId(userId);
+
         CartDetail detail = CartDetail.builder().id(1L).cartId(cart.getCartId()).optionId(optionId)
             .build();
         detailRepository.save(detail);

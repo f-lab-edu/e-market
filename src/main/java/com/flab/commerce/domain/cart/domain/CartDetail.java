@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CartDetail {
 
-    private Long id;
+    private Long detailId;
     private Long cartId;
     private Long optionId;
 
     @Builder
     public CartDetail(Long id, Long cartId, Long optionId) {
-        this.id = id;
+        this.detailId = id;
         this.cartId = cartId;
         this.optionId = optionId;
     }

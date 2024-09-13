@@ -2,6 +2,8 @@ package com.flab.commerce.domain.user.service;
 
 import static com.flab.commerce.global.constant.SessionConst.LOGIN_USER;
 
+import com.flab.commerce.domain.cart.dao.CartRepository;
+import com.flab.commerce.domain.cart.domain.Cart;
 import com.flab.commerce.domain.user.component.encryption.EncryptionComponent;
 import com.flab.commerce.domain.user.dao.UserRepository;
 import com.flab.commerce.domain.user.domain.User;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class UserLoginService {
 
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
     private final EncryptionComponent encoder;
     /**
      * 서블릿이 제공하는 기술 서블릿을 통해 session 생성시 JSESSIONID 이라는 이름의 쿠키를 생성 추정 불가한 랜덤값을 넣어준다.
@@ -31,6 +34,11 @@ public class UserLoginService {
             throw new CommonException(ErrorCode.USER_NOT_FOUND);
         }
         User user = userRepository.findByEmail(request.getEmail());
+        if (cartRepository.findByUserId(user.getUserId()) == null) {
+            cartRepository.save(Cart.builder()
+                .userId(user.getUserId())
+                .build());
+        }
         // 로그인 성공 로직
         httpSession.setAttribute(LOGIN_USER, user.getUserId());
         log.info("Logged in user: {}", httpSession.getAttribute(LOGIN_USER));

@@ -1,10 +1,7 @@
 package com.flab.commerce.global.common.annotation;
 
-import static com.flab.commerce.global.constant.SessionConst.*;
 
 import com.flab.commerce.domain.user.service.UserLoginService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
