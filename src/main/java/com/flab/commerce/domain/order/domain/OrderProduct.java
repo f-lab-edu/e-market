@@ -16,6 +16,7 @@ public class OrderProduct {
     private Long optionId;
     private int orderQuantity; //상품 주문 수량
     private int orderPrice; // 상품 주문 금액
+    // 주문 상태 추가 필요
 
     @Builder
     public OrderProduct(Long orderProductId, Long orderId, Long productId, Long optionId,
