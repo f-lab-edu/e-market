@@ -5,7 +5,7 @@
 <mapper namespace="com.flab.commerce.domain.cart.dao.CartDetailRepository">
   <insert id="save" parameterType="CartDetail">
     INSERT INTO CART_DETAIL(cart_id, option_id)
-    values (#{cartId, optionId})
+    values (#{cartId}, #{optionId})
   </insert>
 
   <delete id="deleteByDetailId">
@@ -20,5 +20,4 @@
     FROM CART_DETAIL
     where cart_id = #{cartId}
   </select>
-
 </mapper>

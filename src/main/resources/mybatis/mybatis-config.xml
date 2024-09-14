@@ -6,5 +6,8 @@
   <mappers>
     <mapper resource="UserMapper.xml"></mapper>
     <mapper resource="CartMapper.xml"></mapper>
+    <mapper resource="CartDetailMapper.xml"></mapper>
+    <mapper resource="ProductMapper.xml"></mapper>
+    <mapper resource="ProductOptionMapper.xml"></mapper>
   </mappers>
 </configuration>

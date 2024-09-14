@@ -6,7 +6,7 @@ import com.flab.commerce.domain.cart.domain.Cart;
 import com.flab.commerce.domain.cart.domain.CartDetail;
 import com.flab.commerce.domain.cart.dto.CartResponse.CartDetailResponse;
 import com.flab.commerce.domain.cart.dto.CartResponse.CartInfoResponse;
-import com.flab.commerce.domain.product.repository.ProductRepository;
+import com.flab.commerce.domain.product.dao.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class CartService {
         List<CartDetail> details = detailRepository.findAllByCartId(cart.getCartId());
         List<CartDetailResponse> list = new ArrayList<>();
         for (CartDetail detail : details) {
-            totalPrice += productRepository.findByOptionId(detail.getOptionId()).getPrice();
+//            totalPrice += productRepository.findById(detail.getOptionId();
             list.add(
                 new CartDetailResponse(detail.getDetailId(), detail.getOptionId(), "반팔티", 124, "M",
                     32145,
@@ -34,7 +34,7 @@ public class CartService {
         }
         return CartInfoResponse.builder()
             .details(list)
-            .totalPrice(totalPrice)
+            .totalPrice(10000)
             .build();
     }
 

@@ -1,7 +1,6 @@
 package com.flab.commerce.domain.user.service;
 
 
-import com.flab.commerce.domain.cart.domain.Cart;
 import com.flab.commerce.domain.user.dao.UserRepository;
 import com.flab.commerce.domain.user.domain.User;
 import com.flab.commerce.domain.user.dto.UserRequest.UserSignupRequest;

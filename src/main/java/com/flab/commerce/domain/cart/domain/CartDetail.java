@@ -17,8 +17,7 @@ public class CartDetail {
     private Long optionId;
 
     @Builder
-    public CartDetail(Long id, Long cartId, Long optionId) {
-        this.detailId = id;
+    public CartDetail(Long cartId, Long optionId) {
         this.cartId = cartId;
         this.optionId = optionId;
     }

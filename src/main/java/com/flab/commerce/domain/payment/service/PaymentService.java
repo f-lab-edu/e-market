@@ -1,12 +1,12 @@
 package com.flab.commerce.domain.payment.service;
 
+import com.flab.commerce.domain.cart.dao.CartDetailRepository;
 import com.flab.commerce.domain.cart.domain.CartDetail;
-import com.flab.commerce.domain.cart.repository.CartDetailRepository;
 import com.flab.commerce.domain.payment.domain.Payment;
 import com.flab.commerce.domain.payment.dto.PaymentRequest;
 import com.flab.commerce.domain.payment.repository.PaymentRepository;
+import com.flab.commerce.domain.product.dao.ProductRepository;
 import com.flab.commerce.domain.product.domain.Product;
-import com.flab.commerce.domain.product.repository.ProductRepository;
 import com.flab.commerce.global.error.CommonException;
 import com.flab.commerce.global.error.ErrorCode;
 import java.util.List;
@@ -31,7 +31,7 @@ public class PaymentService {
         // 결제 진행( 결제 상태를 true로 변경)
         int totalPrice = 0;
         for (CartDetail cartDetail : cartOption) {
-            Product product = productRepository.findByOptionId(cartDetail.getOptionId());
+            Product product = productRepository.findById(cartDetail.getOptionId());
             totalPrice += product.getPrice();
         }
         Payment payment = Payment.builder()
