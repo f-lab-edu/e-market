@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderRepository {
 
+    void save(Order order);
 
     // List
     List<Order> findAllByUserId(Long userId);

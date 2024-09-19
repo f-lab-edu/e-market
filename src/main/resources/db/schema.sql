@@ -67,26 +67,15 @@ CREATE TABLE `CART_DETAIL`
     FOREIGN KEY (`option_id`) REFERENCES `PRODUCT_OPTION` (`option_id`)
 );
 
-CREATE TABLE `PAYMENT`
-(
-    `payment_id`  BIGINT      NOT NULL AUTO_INCREMENT,
-    `type`        VARCHAR(10) NOT NULL,
-    `total_price` INT         NOT NULL,
-    `status`      INT         NOT NULL,
-    `created_at`  DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`payment_id`)
-);
 
 CREATE TABLE `ORDERS`
 (
     `order_id`     BIGINT       NOT NULL AUTO_INCREMENT,
     `user_id`      BIGINT       NOT NULL,
-    `payment_id`   BIGINT       NOT NULL,
     `order_number` VARCHAR(100) NOT NULL,
     `created_at`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`order_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `USERS` (`user_id`),
-    FOREIGN KEY (`payment_id`) REFERENCES `PAYMENT` (`payment_id`)
+    FOREIGN KEY (`user_id`) REFERENCES `USERS` (`user_id`)
 );
 
 CREATE TABLE `ORDER_PRODUCT`
@@ -102,4 +91,14 @@ CREATE TABLE `ORDER_PRODUCT`
     FOREIGN KEY (`product_id`) REFERENCES `PRODUCT` (`product_id`),
     FOREIGN KEY (`option_id`) REFERENCES `PRODUCT_OPTION` (`option_id`)
 );
-
+CREATE TABLE `PAYMENT`
+(
+    `payment_id`  BIGINT      NOT NULL AUTO_INCREMENT,
+    `order_id`    BIGINT      NOT NULL,
+    `type`        VARCHAR(10) NOT NULL,
+    `total_price` INT         NOT NULL,
+    `status`      INT         NOT NULL,
+    `created_at`  DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`payment_id`),
+    foreign key (`order_id`) references `ORDERS` (`order_id`)
+);

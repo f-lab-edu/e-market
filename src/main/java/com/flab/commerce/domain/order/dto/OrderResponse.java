@@ -25,6 +25,7 @@ public class OrderResponse {
 
         private OrdersResponse order;
         // 결제 정보
+        private Long paymentId;
         private int totalPrice;
         private String paymentMethod;
     }

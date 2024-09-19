@@ -19,9 +19,8 @@ public class OrderProduct {
     // 주문 상태 추가 필요
 
     @Builder
-    public OrderProduct(Long orderProductId, Long orderId, Long productId, Long optionId,
+    public OrderProduct( Long orderId, Long productId, Long optionId,
         int orderQuantity, int orderPrice) {
-        this.orderProductId = orderProductId;
         this.orderId = orderId;
         this.productId = productId;
         this.optionId = optionId;

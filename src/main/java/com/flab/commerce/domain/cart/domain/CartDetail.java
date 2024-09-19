@@ -15,10 +15,14 @@ public class CartDetail {
     private Long detailId;
     private Long cartId;
     private Long optionId;
+    private int quantity;
+    private int price;
 
     @Builder
-    public CartDetail(Long cartId, Long optionId) {
+    public CartDetail(Long cartId, Long optionId, int quantity, int price) {
         this.cartId = cartId;
         this.optionId = optionId;
+        this.quantity = quantity;
+        this.price = price;
     }
 }
