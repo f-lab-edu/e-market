@@ -15,21 +15,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PaymentService {
 
-
     private final PaymentRepository paymentRepository;
-    private final OrderProductRepository orderProductRepository;
 
-    public void checkout(Long userId, Long orderId, PaymentRequest request) {
-        List<OrderProduct> products = orderProductRepository.findAllByOrderId(orderId);
-        int totalPrice = 0;
-        for (OrderProduct product : products) {
-            totalPrice += product.getOrderPrice();
-        }
-
+    public void checkout(Long orderId, PaymentRequest request) {
         Payment payment = Payment.builder()
             .orderId(orderId)
             .type(request.getType())
-            .totalPrice(totalPrice)
+            .totalPrice(request.getTotalPrice())
             .status(true)
             .build();
         // 결제 정보 저장(결제 수단, 결제 금액, 결제 아이디)

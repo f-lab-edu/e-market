@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class PaymentRequest {
 
     private PaymentType type;
+    private int totalPrice;
 }

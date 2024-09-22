@@ -13,6 +13,7 @@ import com.flab.commerce.domain.order.dto.OrderResponse.OrderDetailResponse;
 import com.flab.commerce.domain.order.dao.OrderRepository;
 import com.flab.commerce.domain.payment.dao.PaymentRepository;
 import com.flab.commerce.domain.payment.domain.Payment;
+import com.flab.commerce.domain.payment.dto.PaymentRequest;
 import com.flab.commerce.domain.payment.service.PaymentService;
 import com.flab.commerce.domain.product.dao.ProductRepository;
 import com.flab.commerce.domain.product.domain.Product;
@@ -48,7 +49,7 @@ public class OrderService {
         return order.getOrderId();
     }
 
-    public void checkout(Long userId) {
+    public void order(Long userId, PaymentRequest request) {
         Long orderId = doOrder(userId);
         Cart cart = cartRepository.findByUserId(userId);
         List<CartDetail> cartDetails = cartDetailRepository.findAllByCartId(cart.getCartId());
@@ -57,7 +58,7 @@ public class OrderService {
                 cartDetail.getQuantity(), cartDetail.getPrice());
             orderProductRepository.save(orderProduct);
         }
-        paymentService.checkout(userId, orderId, null);
+        paymentService.checkout(orderId, request);
     }
 
     // 주문 내역 조회(리스트)

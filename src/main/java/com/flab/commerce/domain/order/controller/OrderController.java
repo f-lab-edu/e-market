@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     private final CartService cartService;
-    private final PaymentService paymentService;
     private final OrderService orderService;
 
     @GetMapping("/cart")
@@ -35,10 +34,9 @@ public class OrderController {
         return CommonResponse.success(orderService.getOrders(userId));
     }
 
-    @PostMapping("checkout/{id}")
-    public void checkout(Long userId, @PathVariable(name = "id") Long cartId,
-        @RequestBody PaymentRequest request) {
-        paymentService.checkout(userId, cartId, request);
+    @PostMapping("checkout")
+    public void checkout(Long userId, @RequestBody PaymentRequest request) {
+        orderService.order(userId, request);
     }
 
 
