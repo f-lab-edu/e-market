@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.flab.commerce.domain.user.dao.UserRepository">
+  <insert id="save" parameterType="User">
+    INSERT INTO USERS (email, password, username, phone, address)
+    VALUES (#{email}, #{password}, #{username}, #{phone}, #{address})
+  </insert>
+
+  <select id="findById" resultType="User">
+    SELECT user_id, email, password, username, phone, address
+    FROM USERS
+    where user_id = #{user_id}
+  </select>
+
+  <select id="existsByEmail" resultType="boolean">
+    SELECT COUNT(*) > 0
+    FROM USERS
+    WHERE email = #{email}
+  </select>
+
+  <select id="existsByEmailAndPassword" resultType="boolean">
+    SELECT COUNT(*) > 0
+    FROM USERS
+    WHERE email = #{email}
+      AND password = #{password}
+  </select>
+
+  <select id="findByEmail" resultType="User">
+    SELECT user_id, email, password, username, phone, address
+    FROM USERS
+    where email = #{email}
+  </select>
+
+
+</mapper>

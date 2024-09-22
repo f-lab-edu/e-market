@@ -1,7 +1,6 @@
 package com.flab.commerce.domain.cart.domain;
 
 
-import jakarta.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,14 +13,10 @@ public class Cart {
     private Long cartId;
     private Long userId;
 
-
-
     @Builder
-    public Cart (Long cartId, Long userId) {
-        this.cartId = cartId;
+    public Cart(Long userId) {
         this.userId = userId;
     }
-    public static Cart createCart(Long userId){
-        return Cart.builder().userId(userId).build();
-    }
+
+
 }

@@ -1,17 +1,17 @@
 package com.flab.commerce.domain.product.service;
 
+import com.flab.commerce.domain.cart.dao.CartDetailRepository;
+import com.flab.commerce.domain.cart.dao.CartRepository;
 import com.flab.commerce.domain.cart.domain.Cart;
 import com.flab.commerce.domain.cart.domain.CartDetail;
-import com.flab.commerce.domain.cart.repository.CartDetailRepository;
-import com.flab.commerce.domain.cart.repository.CartRepository;
 import com.flab.commerce.domain.category.service.CategoryService;
+import com.flab.commerce.domain.product.dao.ProductOptionRepository;
+import com.flab.commerce.domain.product.dao.ProductRepository;
 import com.flab.commerce.domain.product.domain.Product;
 import com.flab.commerce.domain.product.domain.ProductOption;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductDetailResponse;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductListResponse;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductOptionResponse;
-import com.flab.commerce.domain.product.repository.ProductOptionRepository;
-import com.flab.commerce.domain.product.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -69,11 +69,8 @@ public class ProductService {
     }
 
     public void contain(Long userId, Long optionId) {
-        Cart cart = cartRepository.getCartByUserId(userId);
-        if (cartRepository.getCartByUserId(userId) == null) {
-            cart = Cart.createCart(userId);
-        }
-        CartDetail detail = CartDetail.builder().id(1L).cartId(cart.getCartId()).optionId(optionId)
+        Cart cart = cartRepository.findByUserId(userId);
+        CartDetail detail = CartDetail.builder().cartId(cart.getCartId()).optionId(optionId)
             .build();
         detailRepository.save(detail);
     }

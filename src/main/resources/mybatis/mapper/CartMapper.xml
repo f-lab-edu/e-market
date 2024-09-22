@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.flab.commerce.domain.cart.dao.CartRepository">
+  <insert id="save" parameterType="Cart">
+    INSERT INTO CART (user_id)
+    VALUES (#{userId})
+  </insert>
+
+  <select id="findByUserId" resultType="Cart">
+    SELECT cart_id, user_id
+    FROM CART
+    where user_id = #{userId}
+  </select>
+</mapper>

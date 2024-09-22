@@ -1,6 +1,7 @@
 package com.flab.commerce.domain.order.domain;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,10 +17,14 @@ public class Order {
     private LocalDateTime createdAt;
 
     @Builder
-    public Order(Long orderId, Long userId, String orderNumber) {
-        this.orderId = orderId;
+    public Order(Long userId) {
         this.userId = userId;
-        this.orderNumber = orderNumber;
+        this.orderNumber = setOrderNumber();
         this.createdAt = LocalDateTime.now();
+    }
+
+    public String setOrderNumber() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        return LocalDateTime.now().format(formatter);
     }
 }

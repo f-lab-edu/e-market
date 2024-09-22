@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.flab.commerce.domain.cart.dao.CartDetailRepository">
+  <insert id="save" parameterType="CartDetail">
+    INSERT INTO CART_DETAIL(cart_id, option_id)
+    values (#{cartId}, #{optionId})
+  </insert>
+
+  <delete id="deleteByDetailId">
+    DELETE
+    FROM CART_DETAIL
+    WHERE cart_detail_id = #{detailId}
+      And cart_id = #{cartId}
+  </delete>
+
+  <select id="findAllByCartId" resultType="CartDetail">
+    SELECT *
+    FROM CART_DETAIL
+    where cart_id = #{cartId}
+  </select>
+</mapper>
