@@ -4,7 +4,7 @@ import com.flab.commerce.domain.product.domain.model.ProductSize;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+// Todo : 옵션이 아닌 상품 페이지 형식으로 변경 진행하거나 상품 페이지 엔티티를 추가예정
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductOption {

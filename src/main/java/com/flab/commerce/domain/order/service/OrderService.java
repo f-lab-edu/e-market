@@ -17,11 +17,8 @@ import com.flab.commerce.domain.payment.dto.PaymentRequest;
 import com.flab.commerce.domain.payment.service.PaymentService;
 import com.flab.commerce.domain.product.dao.ProductRepository;
 import com.flab.commerce.domain.product.domain.Product;
-import com.flab.commerce.global.error.CommonException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
