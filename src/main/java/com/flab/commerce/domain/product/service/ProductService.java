@@ -4,6 +4,7 @@ import com.flab.commerce.domain.cart.dao.CartDetailRepository;
 import com.flab.commerce.domain.cart.dao.CartRepository;
 import com.flab.commerce.domain.cart.domain.Cart;
 import com.flab.commerce.domain.cart.domain.CartDetail;
+import com.flab.commerce.domain.cart.dto.CartRequest.ContainRequest;
 import com.flab.commerce.domain.category.service.CategoryService;
 import com.flab.commerce.domain.product.dao.ProductOptionRepository;
 import com.flab.commerce.domain.product.dao.ProductRepository;
@@ -12,7 +13,6 @@ import com.flab.commerce.domain.product.domain.ProductOption;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductDetailResponse;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductListResponse;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductOptionResponse;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,27 +31,23 @@ public class ProductService {
 
 
     public List<ProductListResponse> getList() {
-        List<ProductListResponse> res = new ArrayList<>();
         List<Product> products = productRepository.findAll();
+        return products.stream().map(
+            product -> new ProductListResponse(product.getProductId(), product.getProductName(),
+                product.getPrice())).toList();
 
-        for (Product product : products) {
-            res.add(new ProductListResponse(product.getProductId(), product.getProductName(),
-                product.getPrice()));
-        }
-        return res;
     }
 
     public ProductDetailResponse getDetail(Long productId) {
         Product product = productRepository.findById(productId);
+
         String subCategory = categoryService.getSubCategoryName(product.getSubCategoryId());
         String mainCategory = categoryService.getCategoryName(product.getSubCategoryId());
+
         List<ProductOption> options = optionRepository.findByProductId(productId);
-        List<ProductOptionResponse> res = new ArrayList<>();
-        for (ProductOption op : options) {
-            res.add(
-                new ProductOptionResponse(op.getOptionId(), op.getColorCode(), op.getSize().name(),
-                    op.getStock()));
-        }
+        List<ProductOptionResponse> res = options.stream().map(
+            option -> new ProductOptionResponse(option.getOptionId(), option.getColorCode(),
+                option.getSize().name(), option.getStock())).toList();
 
         return new ProductDetailResponse(product.getProductId(), product.getProductCode(),
             product.getProductName(),
@@ -60,17 +56,20 @@ public class ProductService {
 
     public List<ProductListResponse> searchProduct(String keyword) {
         List<Product> products = productRepository.findByKeyword(keyword);
-        List<ProductListResponse> res = new ArrayList<>();
-        for (Product product : products) {
-            res.add(new ProductListResponse(product.getProductId(), product.getProductName(),
-                product.getPrice()));
-        }
-        return res;
+        return products.stream().map(
+            product -> new ProductListResponse(product.getProductId(), product.getProductName(),
+                product.getPrice())).toList();
     }
 
-    public void contain(Long userId, Long optionId) {
+    // Todo : Cart 관련 수정 필요
+    public void contain(Long userId, Long optionId, ContainRequest request) {
         Cart cart = cartRepository.findByUserId(userId);
-        CartDetail detail = CartDetail.builder().cartId(cart.getCartId()).optionId(optionId)
+        Long productId = optionRepository.findProductIdByOptionId(optionId);
+        CartDetail detail = CartDetail.builder()
+            .cartId(cart.getCartId())
+            .productId(productId)
+            .optionId(optionId)
+            .quantity(request.getQuantity())
             .build();
         detailRepository.save(detail);
     }

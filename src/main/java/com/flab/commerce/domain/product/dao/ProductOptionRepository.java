@@ -11,4 +11,6 @@ public interface ProductOptionRepository {
 
 
     List<ProductOption> findByProductId(Long productId);
+
+    Long findProductIdByOptionId(Long optionId);
 }

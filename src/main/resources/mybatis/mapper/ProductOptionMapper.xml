@@ -9,4 +9,10 @@
     from PRODUCT_OPTION
     where proudct_id = #{productId}
   </select>
+
+  <select id="findProductIdByOptionId" resultType="ProductOption">
+    select product_id
+    from PRODUCT_OPTION
+    where option_id = #{optionId}
+  </select>
 </mapper>

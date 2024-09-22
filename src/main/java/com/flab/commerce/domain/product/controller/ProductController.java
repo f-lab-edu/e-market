@@ -1,5 +1,6 @@
 package com.flab.commerce.domain.product.controller;
 
+import com.flab.commerce.domain.cart.dto.CartRequest.ContainRequest;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductDetailResponse;
 import com.flab.commerce.domain.product.dto.ProductResponse.ProductListResponse;
 import com.flab.commerce.domain.product.service.ProductService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +42,9 @@ public class ProductController {
     }
 
     @PostMapping("/contain/{id}")
-    public void contain(@CheckUserId Long userId, @PathVariable(name = "id") Long optionId) {
-        productService.contain(userId, optionId);
+    public void contain(@CheckUserId Long userId, @PathVariable(name = "id") Long optionId,
+        @RequestBody
+        ContainRequest request) {
+        productService.contain(userId, optionId, request);
     }
 }

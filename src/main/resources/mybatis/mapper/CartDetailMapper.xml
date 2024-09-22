@@ -20,4 +20,10 @@
     FROM CART_DETAIL
     where cart_id = #{cartId}
   </select>
+
+  <select id="existsByCartId" parameterType="Long" resultType="boolean">
+    SELECT COUNT(*) > 0
+    FROM cart
+    WHERE cart_id = #{cartId}
+  </select>
 </mapper>

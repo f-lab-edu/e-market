@@ -15,4 +15,6 @@ public interface CartDetailRepository {
 
     List<CartDetail> findAllByCartId(Long cartId);
 
+    boolean existsByCartId(Long cartId);
+
 }

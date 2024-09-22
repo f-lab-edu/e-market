@@ -8,6 +8,7 @@ import com.flab.commerce.domain.order.dao.OrderProductRepository;
 import com.flab.commerce.domain.order.domain.Order;
 import com.flab.commerce.domain.order.domain.OrderProduct;
 import com.flab.commerce.domain.order.dto.OrderProductResponse;
+import com.flab.commerce.domain.order.dto.OrderResponse;
 import com.flab.commerce.domain.order.dto.OrderResponse.OrdersResponse;
 import com.flab.commerce.domain.order.dto.OrderResponse.OrderDetailResponse;
 import com.flab.commerce.domain.order.dao.OrderRepository;
@@ -17,11 +18,8 @@ import com.flab.commerce.domain.payment.dto.PaymentRequest;
 import com.flab.commerce.domain.payment.service.PaymentService;
 import com.flab.commerce.domain.product.dao.ProductRepository;
 import com.flab.commerce.domain.product.domain.Product;
-import com.flab.commerce.global.error.CommonException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +38,8 @@ public class OrderService {
     // 주문을 생성
     public Long doOrder(Long userId) {
         Cart cart = cartRepository.findByUserId(userId);
-        List<CartDetail> cartDetails = cartDetailRepository.findAllByCartId(cart.getCartId());
-        if (cartDetails.size() > 0) {
-            throw new IllegalArgumentException("구매 가능한 상품이 없습니다.");
+        if (!cartDetailRepository.existsByCartId(cart.getCartId())) {
+            throw new IllegalArgumentException("주문 가능한 상품이 없습니다.");
         }
         Order order = new Order(userId);
         orderRepository.save(order);
@@ -53,49 +50,42 @@ public class OrderService {
         Long orderId = doOrder(userId);
         Cart cart = cartRepository.findByUserId(userId);
         List<CartDetail> cartDetails = cartDetailRepository.findAllByCartId(cart.getCartId());
-        for (CartDetail cartDetail : cartDetails) {
-            OrderProduct orderProduct = new OrderProduct(orderId, 1L, cartDetail.getOptionId(),
-                cartDetail.getQuantity(), cartDetail.getPrice());
-            orderProductRepository.save(orderProduct);
-        }
+        cartDetails.stream().map(
+            detail -> new OrderProduct(orderId, 1L, detail.getOptionId(), detail.getQuantity(),
+                10000)).forEach(orderProductRepository::save);
         paymentService.checkout(orderId, request);
     }
 
     // 주문 내역 조회(리스트)
     public List<OrdersResponse> getOrders(Long userId) {
         List<Order> orderList = orderRepository.findAllByUserId(userId);
-        List<OrdersResponse> res = new ArrayList<>();
-        List<OrderProductResponse> orderProductList = new ArrayList<>();
-        for (Order order : orderList) {
-            List<OrderProduct> orderProducts = orderProductRepository.findAllByOrderId(
-                order.getOrderId());
-            for (OrderProduct orderProduct : orderProducts) {
-                Product product = productRepository.findById(orderProduct.getProductId());
-                orderProductList.add(new OrderProductResponse(product.getProductId(),
-                    product.getProductName(), orderProduct.getOrderQuantity(),
-                    orderProduct.getOrderPrice()));
-            }
-            res.add(new OrdersResponse(order.getOrderId(), order.getCreatedAt(), orderProductList
-            ));
-        }
-        return res;
+        return orderList.stream().map(order -> getOrderResponse(order)).toList();
+    }
+
+    private OrdersResponse getOrderResponse(Order order) {
+        List<OrderProductResponse> list = orderProductRepository.findAllByOrderId(
+                order.getOrderId()).stream()
+            .map(orderProduct -> getOrderProduct(orderProduct)).toList();
+        return new OrdersResponse(order.getOrderId(), order.getCreatedAt(), list);
+    }
+
+    private OrderProductResponse getOrderProduct(OrderProduct orderProduct) {
+        Product product = productRepository.findById(orderProduct.getProductId());
+        return OrderProductResponse.builder()
+            .productId(product.getProductId())
+            .productName(product.getProductName())
+            .quantity(orderProduct.getOrderQuantity())
+            .price(orderProduct.getOrderPrice())
+            .build();
     }
 
     // 주문 내역 상세 조회
     public OrderDetailResponse getOrderDetail(Long usedId, Long orderId) {
-        List<OrderProduct> orderProductList = orderProductRepository.findAllByOrderId(orderId);
-        List<OrderProductResponse> orderProductResponseList = new ArrayList<>();
+
         Order order = orderRepository.findByOrderId(orderId);
-        for (OrderProduct orderProduct : orderProductList) {
-            Product product = productRepository.findById(orderProduct.getProductId());
-            orderProductResponseList.add(new OrderProductResponse(product.getProductId(),
-                product.getProductName(), orderProduct.getOrderQuantity(),
-                orderProduct.getOrderPrice()));
-        }
+        OrdersResponse orderRes = getOrderResponse(order);
         Payment payment = paymentRepository.findByOrderId(orderId);
 
-        OrdersResponse orderRes = new OrdersResponse(orderId, order.getCreatedAt(),
-            orderProductResponseList);
         return new OrderDetailResponse(orderRes, payment.getPaymentId(), payment.getTotalPrice(),
             payment.getType().name());
     }
