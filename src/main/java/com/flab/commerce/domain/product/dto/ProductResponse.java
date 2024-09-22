@@ -43,6 +43,7 @@ public class ProductResponse {
         private Long colorCode;
         private String size;
         private int stock;
+        private int salePrice;
     }
 
 }
