@@ -15,12 +15,15 @@ public class CartDetail {
     private Long detailId;
     private Long cartId;
     private Long optionId;
+    private String productName;
     private int quantity;
 
     @Builder
-    public CartDetail(Long cartId, Long productId,Long optionId, int quantity) {
+    public CartDetail(Long cartId, Long optionId, java.lang.String productName,
+        int quantity) {
         this.cartId = cartId;
         this.optionId = optionId;
+        this.productName = productName;
         this.quantity = quantity;
     }
 }

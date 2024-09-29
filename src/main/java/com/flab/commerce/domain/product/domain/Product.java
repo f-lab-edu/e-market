@@ -24,13 +24,6 @@ public class Product {
 
     private LocalDateTime createdAt;
 
-    public Product(Long productId, String productCode, String productName, int price) {
-        this.productId = productId;
-        this.productCode = productCode;
-        this.productName = productName;
-        this.price = price;
-        this.createdAt = LocalDateTime.now();
-    }
 
     @Builder
     public Product(Long productId, String productCode, String productName, int cost,

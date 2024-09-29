@@ -11,18 +11,18 @@ public class ProductOption {
 
     private Long optionId;
     private Long productId;
-    private String optionName;
     private String color;
     private ProductSize size;
     private int stock;
     private int salePrice; // 의류의 경우 사이즈마다 가격이 달라지는 경우가 존재
     private String detailImage;
 
-    public ProductOption(Long optionId, Long productId, String optionName, ProductSize size,
+    public ProductOption(Long optionId, Long productId,  String color,
+        ProductSize size,
         int stock, int salePrice, String detailImage) {
         this.optionId = optionId;
         this.productId = productId;
-        this.optionName = optionName;
+        this.color = color;
         this.size = size;
         this.stock = stock;
         this.salePrice = salePrice;

@@ -34,7 +34,7 @@ public class ProductService {
         List<Product> products = productRepository.findAll();
         return products.stream().map(
             product -> new ProductListResponse(product.getProductId(), product.getProductName(),
-                product.getPrice())).toList();
+                product.getCost())).toList();
 
     }
 
@@ -46,28 +46,26 @@ public class ProductService {
 
         List<ProductOption> options = optionRepository.findByProductId(productId);
         List<ProductOptionResponse> res = options.stream().map(
-            option -> new ProductOptionResponse(option.getOptionId(), option.getColorCode(),
-                option.getSize().name(), option.getStock())).toList();
+            option -> new ProductOptionResponse(option.getOptionId(), option.getColor(),
+                option.getSize().name(), option.getStock(), option.getSalePrice())).toList();
 
         return new ProductDetailResponse(product.getProductId(), product.getProductCode(),
             product.getProductName(),
-            product.getPrice(), res, mainCategory, subCategory);
+            product.getCost(), res, mainCategory, subCategory);
     }
 
     public List<ProductListResponse> searchProduct(String keyword) {
         List<Product> products = productRepository.findByKeyword(keyword);
         return products.stream().map(
             product -> new ProductListResponse(product.getProductId(), product.getProductName(),
-                product.getPrice())).toList();
+                product.getCost())).toList();
     }
 
     // Todo : Cart 관련 수정 필요
     public void contain(Long userId, Long optionId, ContainRequest request) {
         Cart cart = cartRepository.findByUserId(userId);
-        Long productId = optionRepository.findProductIdByOptionId(optionId);
         CartDetail detail = CartDetail.builder()
             .cartId(cart.getCartId())
-            .productId(productId)
             .optionId(optionId)
             .quantity(request.getQuantity())
             .build();
