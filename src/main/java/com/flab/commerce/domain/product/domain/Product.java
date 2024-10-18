@@ -16,27 +16,22 @@ public class Product {
 
     private String productName;
 
-    private int price;
+    private int cost;
+
+    private String mainImage;
 
     private Long subCategoryId;
 
     private LocalDateTime createdAt;
 
-    public Product(Long productId, String productCode, String productName, int price) {
-        this.productId = productId;
-        this.productCode = productCode;
-        this.productName = productName;
-        this.price = price;
-        this.createdAt = LocalDateTime.now();
-    }
 
     @Builder
-    public Product(Long productId, String productCode, String productName, int price,
+    public Product(Long productId, String productCode, String productName, int cost,
         Long subCategoryId) {
         this.productId = productId;
         this.productCode = productCode;
         this.productName = productName;
-        this.price = price;
+        this.cost = cost;
         this.subCategoryId = subCategoryId;
         this.createdAt = LocalDateTime.now();
     }

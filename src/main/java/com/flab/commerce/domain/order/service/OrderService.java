@@ -8,7 +8,6 @@ import com.flab.commerce.domain.order.dao.OrderProductRepository;
 import com.flab.commerce.domain.order.domain.Order;
 import com.flab.commerce.domain.order.domain.OrderProduct;
 import com.flab.commerce.domain.order.dto.OrderProductResponse;
-import com.flab.commerce.domain.order.dto.OrderResponse;
 import com.flab.commerce.domain.order.dto.OrderResponse.OrdersResponse;
 import com.flab.commerce.domain.order.dto.OrderResponse.OrderDetailResponse;
 import com.flab.commerce.domain.order.dao.OrderRepository;
@@ -16,9 +15,11 @@ import com.flab.commerce.domain.payment.dao.PaymentRepository;
 import com.flab.commerce.domain.payment.domain.Payment;
 import com.flab.commerce.domain.payment.dto.PaymentRequest;
 import com.flab.commerce.domain.payment.service.PaymentService;
+import com.flab.commerce.domain.product.dao.ProductOptionRepository;
 import com.flab.commerce.domain.product.dao.ProductRepository;
 import com.flab.commerce.domain.product.domain.Product;
-import java.util.ArrayList;
+import com.flab.commerce.domain.product.domain.ProductOption;
+import com.flab.commerce.domain.product.domain.model.ProductSize;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderProductRepository orderProductRepository;
     private final ProductRepository productRepository;
+    private final ProductOptionRepository productOptionRepository;
     private final PaymentRepository paymentRepository;
     private final CartRepository cartRepository;
     private final CartDetailRepository cartDetailRepository;
@@ -50,10 +52,17 @@ public class OrderService {
         Long orderId = doOrder(userId);
         Cart cart = cartRepository.findByUserId(userId);
         List<CartDetail> cartDetails = cartDetailRepository.findAllByCartId(cart.getCartId());
+        // Todo : 해당 부분 리팩토링 필요
         cartDetails.stream().map(
-            detail -> new OrderProduct(orderId, 1L, detail.getOptionId(), detail.getQuantity(),
-                10000)).forEach(orderProductRepository::save);
+            detail -> new OrderProduct(orderId, getProductOption(detail).getProductId(),
+                getProductOption(detail).getColor(), getProductOption(detail).getSize().name(),
+                detail.getQuantity(), 1000, true
+            )).forEach(orderProductRepository::save);
         paymentService.checkout(orderId, request);
+    }
+
+    private ProductOption getProductOption(CartDetail cartDetail) {
+        return productOptionRepository.findByOptionId(cartDetail.getOptionId());
     }
 
     // 주문 내역 조회(리스트)

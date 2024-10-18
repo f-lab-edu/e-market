@@ -40,9 +40,10 @@ public class ProductResponse {
     public static class ProductOptionResponse {
 
         private Long optionId;
-        private Long colorCode;
+        private String color;
         private String size;
         private int stock;
+        private int salePrice;
     }
 
 }

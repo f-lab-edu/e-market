@@ -13,17 +13,18 @@ public class OrderProduct {
     private Long orderProductId;
     private Long orderId;
     private Long productId;
-    private Long optionId;
+    private String color;
+    private String size;
     private int orderQuantity; //상품 주문 수량
     private int orderPrice; // 상품 주문 금액
-    // 주문 상태 추가 필요
 
     @Builder
-    public OrderProduct( Long orderId, Long productId, Long optionId,
-        int orderQuantity, int orderPrice) {
+    public OrderProduct(Long orderId, Long productId, String color, String size, int orderQuantity,
+        int orderPrice, boolean status) {
         this.orderId = orderId;
         this.productId = productId;
-        this.optionId = optionId;
+        this.color = color;
+        this.size = size;
         this.orderQuantity = orderQuantity;
         this.orderPrice = orderPrice;
     }

@@ -1,8 +1,6 @@
 package com.flab.commerce.domain.payment.service;
 
 
-import com.flab.commerce.domain.order.dao.OrderProductRepository;
-import com.flab.commerce.domain.order.domain.OrderProduct;
 import com.flab.commerce.domain.payment.domain.Payment;
 import com.flab.commerce.domain.payment.dto.PaymentRequest;
 import com.flab.commerce.domain.payment.dao.PaymentRepository;

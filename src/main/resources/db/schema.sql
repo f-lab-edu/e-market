@@ -31,7 +31,7 @@ CREATE TABLE `PRODUCT`
     `product_id`      BIGINT       NOT NULL AUTO_INCREMENT,
     `product_code`    VARCHAR(100) NOT NULL,
     `product_name`    VARCHAR(100) NOT NULL,
-    `price`           INT          NOT NULL,
+    `cost`            INT          NOT NULL,
     `sub_category_id` BIGINT       NOT NULL,
     `created_at`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`product_id`),
@@ -42,9 +42,9 @@ CREATE TABLE `PRODUCT_OPTION`
 (
     `option_id`  BIGINT       NOT NULL AUTO_INCREMENT,
     `product_id` BIGINT       NOT NULL,
-    `color_code` BIGINT       NOT NULL,
     `size`       VARCHAR(100) NOT NULL,
     `stock`      INT          NOT NULL,
+    `sale_price`      INT          NOT NULL,
     PRIMARY KEY (`option_id`),
     FOREIGN KEY (`product_id`) REFERENCES `PRODUCT` (`product_id`)
 );
