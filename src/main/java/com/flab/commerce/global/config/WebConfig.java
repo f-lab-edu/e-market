@@ -1,6 +1,8 @@
 package com.flab.commerce.global.config;
 
+import com.flab.commerce.domain.user.service.UserLoginService;
 import com.flab.commerce.global.common.annotation.CheckUserIdArgumentResolver;
+import com.flab.commerce.global.interceptor.AuthenticationInterceptor;
 import com.flab.commerce.global.interceptor.LogInterceptor;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     private final CheckUserIdArgumentResolver checkUserIdArgumentResolver;
+    private final UserLoginService loginService;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
@@ -27,6 +30,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LogInterceptor())
             .order(1)
             .addPathPatterns("/**");
+
+        registry.addInterceptor(new AuthenticationInterceptor(loginService))
+            .order(2)
+            .addPathPatterns("/**");
+
 
     }
 }

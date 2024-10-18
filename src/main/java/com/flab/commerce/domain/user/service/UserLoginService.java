@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -27,7 +28,7 @@ public class UserLoginService {
      * 서블릿이 제공하는 기술 서블릿을 통해 session 생성시 JSESSIONID 이라는 이름의 쿠키를 생성 추정 불가한 랜덤값을 넣어준다.
      */
     private final HttpSession httpSession;
-
+    @Transactional
     public void login(UserLoginRequest request) {
         String encodedPassword = encoder.encryptPassword(request.getEmail(), request.getPassword());
         if (!userRepository.existsByEmailAndPassword(request.getEmail(), encodedPassword)) {
@@ -43,7 +44,7 @@ public class UserLoginService {
         httpSession.setAttribute(LOGIN_USER, user.getUserId());
         log.info("Logged in user: {}", httpSession.getAttribute(LOGIN_USER));
     }
-
+    @Transactional
     public void logout(Long userId) {
         try {
             log.info("Request Logged out user: {}", httpSession.getAttribute(LOGIN_USER));

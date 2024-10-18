@@ -6,26 +6,43 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Slf4j
 public class LogInterceptor implements HandlerInterceptor {
 
-    private static final String LOG_ID = "logId";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
         Object handler) throws Exception {
 
-        String requestURI = request.getRequestURI();
-
         String uuid = UUID.randomUUID().toString();
-        request.setAttribute(LOG_ID, uuid);
+        request.setAttribute("start", System.currentTimeMillis());
+        request.setAttribute("request-id", uuid);
         if (handler instanceof HandlerMethod) {
-            HandlerMethod hm = (HandlerMethod) handler;
+            HandlerMethod hm = (HandlerMethod) handler; // 호출 핸들러의 정보가 담겨있다.
         }
-        log.info("REQ [{}][{}][{}]", uuid, requestURI, handler);
+        log.info("REQ [{}] - calling [{}]", uuid, request.getRequestURI());
         return true;
     }
 
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+        ModelAndView modelAndView) throws Exception {
+        log.info("postHandle [{}] - response in {}ms",
+            request.getAttribute("request-id"),
+            System.currentTimeMillis() - (long) request.getAttribute("start"));
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+        Object handler, Exception ex) throws Exception {
+        log.info("RES [{}] - completed in {}ms",
+            request.getAttribute("request-id"),
+            System.currentTimeMillis() - (long) request.getAttribute("start"));
+        if (ex != null) {
+            log.error("Exception [{}] - exception", request.getAttribute("request-id"), ex);
+        }
+    }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class CartService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
 
+    @Transactional(readOnly = true)
     public CartInfoResponse getCart(Long userId) {
         Cart cart = cartRepository.findByUserId(userId);
         int totalPrice = 0;

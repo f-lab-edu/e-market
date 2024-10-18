@@ -17,6 +17,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -29,7 +30,7 @@ public class ProductService {
     private final CartDetailRepository detailRepository;
     private final CategoryService categoryService;
 
-
+    @Transactional(readOnly = true)
     public List<ProductListResponse> getList() {
         List<Product> products = productRepository.findAll();
         return products.stream().map(
@@ -37,7 +38,7 @@ public class ProductService {
                 product.getCost())).toList();
 
     }
-
+    @Transactional(readOnly = true)
     public ProductDetailResponse getDetail(Long productId) {
         Product product = productRepository.findById(productId);
 
@@ -53,7 +54,7 @@ public class ProductService {
             product.getProductName(),
             product.getCost(), res, mainCategory, subCategory);
     }
-
+    @Transactional(readOnly = true)
     public List<ProductListResponse> searchProduct(String keyword) {
         List<Product> products = productRepository.findByKeyword(keyword);
         return products.stream().map(
@@ -62,6 +63,7 @@ public class ProductService {
     }
 
     // Todo : Cart 관련 수정 필요
+    @Transactional
     public void contain(Long userId, Long optionId, ContainRequest request) {
         Cart cart = cartRepository.findByUserId(userId);
         CartDetail detail = CartDetail.builder()

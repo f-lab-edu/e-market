@@ -7,6 +7,7 @@ import com.flab.commerce.domain.user.service.UserLoginService;
 import com.flab.commerce.domain.user.service.UserService;
 import com.flab.commerce.global.common.CommonResponse;
 import com.flab.commerce.global.common.annotation.CheckUserId;
+import com.flab.commerce.global.common.annotation.LoginCheck;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,7 @@ public class UserApiController {
         loginService.login(request);
     }
 
+    @LoginCheck
     @DeleteMapping("/logout")
     public void logout(@CheckUserId Long userId) {
         loginService.logout(userId);

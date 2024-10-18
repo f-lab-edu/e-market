@@ -23,6 +23,7 @@ import com.flab.commerce.domain.product.domain.model.ProductSize;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +39,7 @@ public class OrderService {
     private final PaymentService paymentService;
 
     // 주문을 생성
+    @Transactional
     public Long doOrder(Long userId) {
         Cart cart = cartRepository.findByUserId(userId);
         if (!cartDetailRepository.existsByCartId(cart.getCartId())) {
@@ -48,6 +50,7 @@ public class OrderService {
         return order.getOrderId();
     }
 
+    @Transactional
     public void order(Long userId, PaymentRequest request) {
         Long orderId = doOrder(userId);
         Cart cart = cartRepository.findByUserId(userId);
@@ -66,6 +69,7 @@ public class OrderService {
     }
 
     // 주문 내역 조회(리스트)
+    @Transactional(readOnly = true)
     public List<OrdersResponse> getOrders(Long userId) {
         List<Order> orderList = orderRepository.findAllByUserId(userId);
         return orderList.stream().map(order -> getOrderResponse(order)).toList();
@@ -89,6 +93,7 @@ public class OrderService {
     }
 
     // 주문 내역 상세 조회
+    @Transactional(readOnly = true)
     public OrderDetailResponse getOrderDetail(Long usedId, Long orderId) {
 
         Order order = orderRepository.findByOrderId(orderId);

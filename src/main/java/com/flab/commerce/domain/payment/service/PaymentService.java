@@ -5,9 +5,9 @@ import com.flab.commerce.domain.payment.domain.Payment;
 import com.flab.commerce.domain.payment.dto.PaymentRequest;
 import com.flab.commerce.domain.payment.dao.PaymentRepository;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +15,7 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
 
+    @Transactional
     public void checkout(Long orderId, PaymentRequest request) {
         Payment payment = Payment.builder()
             .orderId(orderId)
