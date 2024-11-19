@@ -13,11 +13,12 @@
 - MyBatis
 ### 아키텍처
 - ERD
-<img src="img.png" alt="img" width="669"/>
+
+<img width="669" src="img.png" alt="img" />
 
 ## 개발 방식
 ### Git flow
-<img src="img_1.png" alt="img_1" width="669"/>
+<img src="img_1.png" alt="img_1" width="669" height="669"/>
 
 [참고] [우아한 형제들 기술 블로그](https://techblog.woowahan.com/2553/)
 
